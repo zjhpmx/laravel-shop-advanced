@@ -11,9 +11,10 @@ class Product extends Model
         'title', 'description', 'image', 'on_sale',
         'rating', 'sold_count', 'review_count', 'price'
     ];
-    protected $casts = [
+    protected $casts    = [
         'on_sale' => 'boolean', // on_sale 是一个布尔类型的字段
     ];
+
     // 与商品SKU关联
     public function skus()
     {
@@ -27,5 +28,11 @@ class Product extends Model
             return $this->attributes['image'];
         }
         return \Storage::disk('public')->url($this->attributes['image']);
+    }
+
+    //反向一对多   商品to类目
+    public function category()
+    {
+        return $this->belongsTo(Category::call, 'category_id', 'id');
     }
 }
